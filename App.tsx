@@ -5,6 +5,8 @@
  * @format
  */
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -55,9 +57,23 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const Tab = createBottomTabNavigator();
 
+const SettingScreen = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  return (
+    <View style={backgroundStyle}>
+      <Text>Setting Screen</Text>
+    </View>
+  );
+};
+
+const HomeScreen = () => {
+  const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -66,8 +82,7 @@ function App(): React.JSX.Element {
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
+        backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -94,6 +109,23 @@ function App(): React.JSX.Element {
       </ScrollView>
     </SafeAreaView>
   );
+};
+
+function App(): React.JSX.Element {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen 
+          name="Home" 
+          component={HomeScreen}
+        />
+        <Tab.Screen 
+          name="Setting" 
+          component={SettingScreen}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -116,3 +148,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
