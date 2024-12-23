@@ -6,7 +6,8 @@
  */
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -57,7 +58,8 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const SettingScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -86,7 +88,7 @@ const HomeScreen = () => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
+       {/* <Header /> */}
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -112,18 +114,36 @@ const HomeScreen = () => {
 };
 
 function App(): React.JSX.Element {
+
+  // return (
+  //   <NavigationContainer>
+  //     <Tab.Navigator>
+  //       <Tab.Screen 
+  //         name="Home" 
+  //         component={HomeScreen}
+  //       />
+  //       <Tab.Screen 
+  //         name="Setting" 
+  //         component={SettingScreen}
+  //       />
+  //     </Tab.Navigator>
+  //   </NavigationContainer>
+  // );
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen 
-          name="Home" 
-          component={HomeScreen}
-        />
-        <Tab.Screen 
-          name="Setting" 
+      <Stack.Navigator
+        initialRouteName="Home">
+        <Stack.Screen
+          name="Setting"
           component={SettingScreen}
+          options={{ title: 'Setting' }}
         />
-      </Tab.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'Cash Wu Home' }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
